@@ -10,6 +10,11 @@ import { InterviewerList } from "components/InterviewerList";
 import Appointment from "components/Appointment/index.js";
 import Header from "components/Appointment/Header";
 import Empty from "components/Empty";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
+
 
 import "index.scss";
 
@@ -166,3 +171,38 @@ storiesOf("Empty", module)
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+
+  .add("Empty", () => <Empty onAdd={action("setDay")} />) //made change from setDay to onAdd
+
+storiesOf("Show", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Show", () => (
+    <Show
+      student="Lydia Miller-Jones"
+      interviewer={interviewer.name}
+      onEdit={action("onEdit")}
+      onDelete={action("onDelete")}
+    />));
+
+storiesOf("Confirm", module)
+  .add("Confirm", () => (
+    <Confirm
+      message="Delete the Appointment?"
+      onConfirm={action("onConfirm")}
+      onCancel={action("onCancel")}
+    />));
+
+storiesOf("Status", module)
+  .add("Status", () => (
+    <Status
+      message="Deleting"
+    />));
+
+storiesOf("Error", module)
+  .add("Error", () => (
+    <Error
+      message="Could no delete appointment"
+      onClose={action("onClose")}
+    />));
