@@ -23,3 +23,17 @@ export function getAppointmentsForDay(state, day) {
   }
   return filteredAppointments;
 };
+
+export function getInterview(state, interview) {
+  if (!interview) {
+    return null;
+  }
+  let interviewObj = {}
+  for (let interviewID in state.interviewers) {
+    if (interview.interviewer.toString() === interviewID) {
+      interviewObj.interviewer = state.interviewers[interviewID];
+      interviewObj.student = interview.student;
+    }
+  }
+  return interviewObj
+}
