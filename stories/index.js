@@ -225,3 +225,22 @@ storiesOf("Create", module)
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />));
+storiesOf("Appointment", module)
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="4pm" />
+      <Appointment time="5pm" />
+    </Fragment>
+  ));
+
+storiesOf("Appointment", module)
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="4pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }} //NOTE interviewer in compass is pulled from the list of interviewers but the code provided gives us a student.
+      />
+      <Appointment time="5pm" />
+    </Fragment>
+  ));
