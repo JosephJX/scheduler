@@ -4,7 +4,8 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Confirm from "./Confirm";
-import Status from "./Status"
+import Status from "./Status";
+import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment(props) {
@@ -16,11 +17,14 @@ export default function Appointment(props) {
   const SAVING = "SAVING";
   const DELETING = "DELETING";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back } = useVisualMode(
-    props.interview ? SHOW : EMPTY // prior to noticing a single line in the instructions, COMPASS doesn't have the SHOW or EMPTY components as react components... but this is also the only way I can get it to not throw errors.
     props.interview ? SHOW : EMPTY
   );
+
+  console.log(time, interview, mode);
 
   const save = (name, interviewer) => {
     const interview = {
@@ -31,14 +35,25 @@ export default function Appointment(props) {
     const result = bookInterview(props.id, interview);
     console.log(result);
     result.then(() => { transition(SHOW) });
+    result.catch(error => { transition(ERROR_SAVE) })
   }
 
-  const cancel = () => {
-    transition(DELETING);
-    cancelInterview(props.id)
-      .then(() => { transition(EMPTY) })
+  function cancel() {
+    transition(DELETING, true);
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(error => transition(ERROR_DELETE, true))
   };
 
+  function errorClose() {
+    back();
+  }
+
+
+
+  console.log(`anybody home?`)
+  console.log(time, interview, mode)
 
   return (
     <article className="appointment">
@@ -76,6 +91,15 @@ export default function Appointment(props) {
         onCancel={() => back()}
         onSave={save}
       />}
+      {mode === ERROR_SAVE && <Error
+        onClose={() => transition(EMPTY)}
+        message="Failed to book interview"
+      />}
+      {mode === ERROR_DELETE &&
+        <Error
+          message="The appointment was not able to be deleted, sorry!"
+          onClose={errorClose}
+        />}
     </article>
   )
 }; 
