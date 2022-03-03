@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData(props) {
-  // state,
-  // setDay,
-  // bookInterview,
-  // cancelInterview
 
   //LOGIC for State
   const [state, setState] = useState({
@@ -14,6 +10,9 @@ export default function useApplicationData(props) {
     appointments: {},
     interviewers: {}
   });
+  //LOGIC for setDay
+
+  const setDay = day => setState({ ...state, day });
 
   useEffect(() => {
     Promise.all([
@@ -30,10 +29,8 @@ export default function useApplicationData(props) {
     });
   }, []);
 
-  //LOGIC for setDay
-  const setDay = day => setState({ ...state, day });
-
   //LOGIC for bookInterview
+
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
@@ -43,9 +40,12 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
-    return axios.put(`/api/appointments/${id}`, appointment).then(() => {
-      setState({ ...state, appointments: appointments });
-    });
+    return axios
+      .put(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState((prev) => ({ ...prev, appointments }));
+        updateSpots(id, true)
+      });
   }
 
   //LOGIC for cancelInterview
@@ -58,9 +58,12 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
-    return axios.delete(`/api/appointments/${id}`).then(() => {
-      setState({ ...state, appointments: appointments });
-    })
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => {
+        setState((prev) => ({ ...prev, appointments }));
+        updateSpots(id, false)
+      })
 
   };
 
@@ -69,6 +72,7 @@ export default function useApplicationData(props) {
     setDay,
     bookInterview,
     cancelInterview
-  }
+  };
 
 }
+
