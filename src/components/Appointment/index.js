@@ -14,7 +14,8 @@ export default function Appointment(props) {
   const CREATE = "CREATE";
   const CONFIRM = "CONFIRM";
   const SAVING = "SAVING";
-  const DELETING = "DELETING"
+  const DELETING = "DELETING";
+  const EDIT = "EDIT";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY // prior to noticing a single line in the instructions, COMPASS doesn't have the SHOW or EMPTY components as react components... but this is also the only way I can get it to not throw errors.
@@ -47,6 +48,7 @@ export default function Appointment(props) {
         student={props.interview.student}
         interviewer={props.interview.interviewer}
         onDelete={() => transition(CONFIRM)}
+        onEdit={() => transition(EDIT)}
       />}
       {mode === EMPTY && <Empty
         onAdd={() => transition(CREATE)}
@@ -66,6 +68,13 @@ export default function Appointment(props) {
       />}
       {mode === DELETING && <Status
         message='DELETING...'
+      />}
+      {mode === EDIT && <Form
+        interviewer={props.interview.interviewer.id} //this line here
+        student={props.interview.student}
+        interviewers={props.interviewers}
+        onCancel={() => back()}
+        onSave={save}
       />}
     </article>
   )
