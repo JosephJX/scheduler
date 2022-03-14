@@ -1,6 +1,5 @@
 import React from "react";
-import { DayListItem } from "./DayListItem";
-
+import DayListItem from "./DayListItem"
 export function DayList(props) {
   const mapDaysArray = props.days.map((day) => {
     return <DayListItem
