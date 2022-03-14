@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.scss";
 import Header from "./Header";
 import Show from "./Show";
+import Form from "./Form";
 import Empty from "./Empty";
 import Confirm from "./Confirm";
 import Status from "./Status";
@@ -40,8 +41,7 @@ export default function Appointment(props) {
 
   function cancel() {
     transition(DELETING, true);
-    props
-      .cancelInterview(props.id)
+    cancelInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(error => transition(ERROR_DELETE, true))
   };
@@ -49,8 +49,6 @@ export default function Appointment(props) {
   function errorClose() {
     back();
   }
-
-
 
   console.log(`anybody home?`)
   console.log(time, interview, mode)
