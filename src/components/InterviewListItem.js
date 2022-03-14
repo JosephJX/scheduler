@@ -3,7 +3,7 @@ import "styles/InterviewerListItem.scss";
 import classNames from "classnames";
 
 export function InterviewerListItem(props) {
-  const { id, selected } = props;
+  const { selected } = props;
   const interviewerClass = classNames(
     "interviewers__item",
     { "interviewers__item--selected": selected });
@@ -15,7 +15,7 @@ export function InterviewerListItem(props) {
         src={props.avatar}
         alt={props.name}
       />
-      {props.selected && props.name}
+      {selected && props.name}
     </li>
   )
 }; 

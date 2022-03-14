@@ -1,12 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { DayListItem } from "../src/components/DayListItem";
-
+import { DayListItem } from "components/DayListItem";
 import { DayList } from "components/DayList";
 import { InterviewerListItem } from "components/InterviewerListItem";
 import { InterviewerList } from "components/InterviewerList";
+
 import Appointment from "components/Appointment/index.js";
 import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
@@ -15,11 +15,9 @@ import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
-
+import Button from "components/Button";
 
 import "index.scss";
-
-import Button from "components/Button";
 
 storiesOf("Button", module)
   .addParameters({
@@ -239,7 +237,7 @@ storiesOf("Appointment", module)
       <Appointment
         id={1}
         time="4pm"
-        interview={{ student: "Lydia Miller-Jones", interviewer }} //NOTE interviewer in compass is pulled from the list of interviewers but the code provided gives us a student.
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
       />
       <Appointment time="5pm" />
     </Fragment>
