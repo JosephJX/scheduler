@@ -90,7 +90,7 @@ export default function Appointment(props) {
         onSave={save}
       />}
       {mode === ERROR_SAVE && <Error
-        onClose={() => transition(EMPTY)}
+        onClose={() => transition(EDIT)}
         message="Failed to book interview"
       />}
       {mode === ERROR_DELETE &&
